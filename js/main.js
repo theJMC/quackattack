@@ -1,4 +1,30 @@
 let duck
+let enemies = []
+
+function addEnemy() {
+  let directions = ['n', 'e', 's', 'w'];
+  let choice = random(directions);
+  let x = 50;
+  let y = 50;
+  switch (choice) {
+    case 'n':
+      y = 50;
+      x = random(210, 290);
+      break;
+    case 'e':
+      x = 450;
+      y = random(210, 290);
+      break;
+    case 's':
+      y = 450;
+      x = random(210, 290);
+      break;
+    default:
+      x = 50;
+      y = random(210, 290);
+  }
+  enemies.push(new Enemy(x, y, choice))
+}
 
 let attackWaves = []
 
@@ -10,6 +36,7 @@ function newAttackWave(x, y, direction) {
 function setup() {
   createCanvas(500, 500);
   duck = new Duck(250, 250, 100)
+  addEnemy()
 }
 
 function draw() {
@@ -40,6 +67,10 @@ function draw() {
   for (let wave of attackWaves) {
     wave.draw()
   }
+  enemies.forEach(enemy => {
+    enemy.move()
+    enemy.draw
+  });
 }
 
 function keyPressed() {
@@ -73,5 +104,7 @@ function keyPressed() {
     case "d":
       console.log("d");
       break;
+    case ENTER:
+      addEnemy();
   }
 }
