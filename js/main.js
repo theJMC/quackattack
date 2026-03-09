@@ -1,5 +1,8 @@
+let duck
+
 function setup() {
   createCanvas(500, 500);
+  duck = new Duck(250, 250, 100)
 }
 
 function draw() {
@@ -25,6 +28,7 @@ function draw() {
   rect(440, 200, 60, 100);
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
+  duck.draw()
 }
 
 function keyPressed() {
