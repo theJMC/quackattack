@@ -34,16 +34,16 @@ function draw() {
 function keyPressed() {
     switch (keyCode) {
         case LEFT_ARROW:
-            console.log("left");
+            duck.moveLeft()
             break;
         case RIGHT_ARROW:
-            console.log("right");
+            duck.moveRight()
             break;
         case UP_ARROW:
-            console.log("up");
+            duck.moveUp()
             break;
         case DOWN_ARROW:
-            console.log("down");
+            duck.moveDown()
             break;
         case 87:
             console.log("w");

@@ -11,16 +11,16 @@ class Duck {
     circle(this.x, this.y, 50) // TEMP
   }
   moveUp() {
-    this.y++
-  }
-  moveDown() {
     this.y--
   }
+  moveDown() {
+    this.y++
+  }
   moveLeft() {
-    this.x++
+    this.x--
   }
   moveRight() {
-    this.x--
+    this.x++
   }
   attack() {
     console.log('attack')
