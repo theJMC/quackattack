@@ -5,9 +5,7 @@ In Quack Attack you play as a rubber duck fighting enemies
 
 # Things we need to do
 ## Basic
-- Duck moves
-- Duck Quacks
-- Enemy spawn
+- Duck Quacks 50%
 - Enemy can be killed
 - Powerup spawn
 - Powerup does something
