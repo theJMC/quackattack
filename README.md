@@ -1,4 +1,7 @@
-# quackattack
+# Quack Attack
+Welcome to Quack Attack our LAST bournemouth hackathon game :(
+
+In Quack Attack you play as a rubber duck fighting enemies
 
 # Things we need to do
 ## Basic
