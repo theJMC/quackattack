@@ -1,5 +1,7 @@
 let duck
 let enemies = []
+let attackWaves = []
+
 
 function addEnemy() {
   let directions = ['n', 'e', 's', 'w'];
@@ -25,8 +27,6 @@ function addEnemy() {
   }
   enemies.push(new Enemy(x, y, choice))
 }
-
-let attackWaves = []
 
 function newAttackWave(x, y, direction) {
   let wave = new AttackWave(x, y, direction)
