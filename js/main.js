@@ -1,5 +1,12 @@
 let duck
 
+let attackWaves = []
+
+function newAttackWave(x, y, direction) {
+  let wave = new AttackWave(x, y, direction)
+  attackWaves.push(wave)
+}
+
 function setup() {
   createCanvas(500, 500);
   duck = new Duck(250, 250, 100)
@@ -29,6 +36,10 @@ function draw() {
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
   duck.draw()
+
+  for (let wave of attackWaves) {
+    wave.draw()
+  }
 }
 
 function keyPressed() {
@@ -45,16 +56,21 @@ function keyPressed() {
     case DOWN_ARROW:
       duck.moveDown()
       break;
-    case 87:
+  } 
+  switch (key) {
+    case " ":
+      duck.attack()
+      break;
+    case "w":
       console.log("w");
       break;
-    case 65:
+    case "a":
       console.log("a");
       break;
-    case 83:
+    case "s":
       console.log("s");
       break;
-    case 68:
+    case "d":
       console.log("d");
       break;
   }

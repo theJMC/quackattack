@@ -25,6 +25,9 @@ class Duck {
     this.x = this.x + MOVEMENT_SPEED
   }
   attack() {
+    let direction = "left"
+    newAttackWave(this.x, this.y, direction)
     console.log('attack')
+
   }
 }
