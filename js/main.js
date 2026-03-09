@@ -69,7 +69,7 @@ function draw() {
   }
   enemies.forEach(enemy => {
     enemy.move()
-    enemy.draw
+    enemy.draw()
   });
 }
 
@@ -86,6 +86,10 @@ function keyPressed() {
       break;
     case DOWN_ARROW:
       duck.moveDown()
+      break;
+    case ENTER:
+      console.log("enter");
+      addEnemy();
       break;
   } 
   switch (key) {
@@ -104,7 +108,6 @@ function keyPressed() {
     case "d":
       console.log("d");
       break;
-    case ENTER:
-      addEnemy();
+
   }
 }

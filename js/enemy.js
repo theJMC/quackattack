@@ -1,8 +1,8 @@
 class Enemy {
-  constructor(x, y, h, d) {
+  constructor(x, y, d) {
     this.x = x
     this.y = y
-    this.health = h
+    this.health = 100
     this.direction = d
   }
   draw() {
@@ -16,13 +16,13 @@ class Enemy {
             this.y++
             break;
         case 'e':
-            this.x++
+            this.x--
             break;
         case 's':
             this.y--
             break;
         default:
-            this.x--
+            this.x++
     }
   }
 }
