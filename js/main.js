@@ -32,30 +32,30 @@ function draw() {
 }
 
 function keyPressed() {
-    switch (keyCode) {
-        case LEFT_ARROW:
-            duck.moveLeft()
-            break;
-        case RIGHT_ARROW:
-            duck.moveRight()
-            break;
-        case UP_ARROW:
-            duck.moveUp()
-            break;
-        case DOWN_ARROW:
-            duck.moveDown()
-            break;
-        case 87:
-            console.log("w");
-            break;
-        case 65:
-            console.log("a");
-            break;
-        case 83:
-            console.log("s");
-            break;
-        case 68:
-            console.log("d");
-            break;
-    }
+  switch (keyCode) {
+    case LEFT_ARROW:
+      duck.moveLeft()
+      break;
+    case RIGHT_ARROW:
+      duck.moveRight()
+      break;
+    case UP_ARROW:
+      duck.moveUp()
+      break;
+    case DOWN_ARROW:
+      duck.moveDown()
+      break;
+    case 87:
+      console.log("w");
+      break;
+    case 65:
+      console.log("a");
+      break;
+    case 83:
+      console.log("s");
+      break;
+    case 68:
+      console.log("d");
+      break;
+  }
 }
