@@ -23,3 +23,32 @@ function draw() {
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
 }
+
+function keyPressed() {
+    switch (keyCode) {
+        case LEFT_ARROW:
+            console.log("left");
+            break;
+        case RIGHT_ARROW:
+            console.log("right");
+            break;
+        case UP_ARROW:
+            console.log("up");
+            break;
+        case DOWN_ARROW:
+            console.log("down");
+            break;
+        case 87:
+            console.log("w");
+            break;
+        case 65:
+            console.log("a");
+            break;
+        case 83:
+            console.log("s");
+            break;
+        case 68:
+            console.log("d");
+            break;
+    }
+}
