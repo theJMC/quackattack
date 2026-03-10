@@ -5,6 +5,7 @@ class Duck {
     this.x = x
     this.y = y
     this.health = h
+    this.direction = 'left'
     this.image = duckImage
   }
   draw() {
@@ -13,19 +14,22 @@ class Duck {
   }
   moveUp() {
     this.y = this.y - MOVEMENT_SPEED
+    this.direction = 'up'
   }
   moveDown() {
     this.y = this.y + MOVEMENT_SPEED
+    this.direction = 'down'
   }
   moveLeft() {
     this.x = this.x - MOVEMENT_SPEED
+    this.direction = 'left'
   }
   moveRight() {
     this.x = this.x + MOVEMENT_SPEED
+    this.direction = 'right'
   }
   attack() {
-    let direction = "left"
-    newAttackWave(this.x, this.y, direction)
+    newAttackWave(this.x, this.y, this.direction)
     console.log('attack')
   }
   contact(enemyX, enemyY) {
