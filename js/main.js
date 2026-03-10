@@ -51,7 +51,7 @@ function preload() {
   myFont = loadFont('assets/font/PressStart2P-Regular.ttf');
   duckImage = loadImage('assets/duck/duck_water.png');
   enemySpriteSheet = loadImage('assets/enemy/enemy_spritesheet.png');
-  sound = loadSound('/assets/songs/English Beat - Mirror In the Bathroom Remaster.mp3');
+  sound = loadSound('assets/songs/English Beat - Mirror In the Bathroom Remaster.mp3');
 }
 
 function setup() {
