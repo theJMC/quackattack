@@ -72,10 +72,16 @@ function draw() {
 
   for (let wave of attackWaves) {
     wave.draw()
+    wave.move()
+
+    for (let enemy of enemies) {
+      enemy.contact(wave.x, wave.y);
+    }
   }
   enemies.forEach(enemy => {
     enemy.move()
     enemy.draw()
+    duck.contact(enemy.x, enemy.y)
   });
 }
 

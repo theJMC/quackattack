@@ -25,4 +25,14 @@ class Enemy {
             this.x++
     }
   }
+  contact(attackX, attackY) {
+    if (
+      attackX >= this.x - 75 &&
+      attackX <= this.x + 75 &&
+      attackY >= this.y - 75 &&
+      attackY <= this.y + 75
+    ) {
+      this.health-=100;
+    }
+  }
 }

@@ -28,6 +28,15 @@ class Duck {
     let direction = "left"
     newAttackWave(this.x, this.y, direction)
     console.log('attack')
-
+  }
+  contact(enemyX, enemyY) {
+    if (
+      enemyX >= this.x - 75 &&
+      enemyX <= this.x + 75 &&
+      enemyY >= this.y - 75 &&
+      enemyY <= this.y + 75
+    ) {
+      this.health--;
+    }
   }
 }
