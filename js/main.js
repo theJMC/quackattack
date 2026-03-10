@@ -5,6 +5,7 @@ let duckImage
 let powerups = []
 let myFont;
 let enemySpriteSheet;
+let sound;
 let lastPowerupSpawnTime = 0;
 let powerupSpawnInterval = 8000;
 
@@ -50,6 +51,7 @@ function preload() {
   myFont = loadFont('assets/font/PressStart2P-Regular.ttf');
   duckImage = loadImage('assets/duck/duck_water.png');
   enemySpriteSheet = loadImage('assets/enemy/enemy_spritesheet.png');
+  sound = loadSound('/assets/songs/English Beat - Mirror In the Bathroom Remaster.mp3');
 }
 
 function setup() {
@@ -59,18 +61,17 @@ function setup() {
   noStroke()
   textFont(myFont);
   duck = new Duck(250, 250, 100, duckImage)
-  addEnemy()
+  fft = new p5.FFT();
+  amplitude = new p5.Amplitude();
+  sound.amp(0.2);
 }
 
 function draw() {
   background('#7CA5B8');
-  // SINK
-  fill('#D2D3DE')
-  rect(0, 0, 500, 50);
-  rect(0, 450, 500, 50);
-  rect(0, 0, 50, 500);
-  rect(450, 0, 50, 500);
-  drawBath()
+  drawLakeRipples();
+  // PLUG HOLE
+  fill('#787987')
+  circle(250, 145, 45);
 
   if (millis() - lastPowerupSpawnTime > powerupSpawnInterval && powerups.length < 2) {
     powerups.push(spawnRandomPowerup(random(80, 420), random(80, 420)));
@@ -102,7 +103,7 @@ function draw() {
     duck.contact(enemy.x, enemy.y)
   });
 
-  
+  drawBath()
   drawStats(duck.health, duck.activePowerup)
 }
 
@@ -112,14 +113,39 @@ function drawBath() {
   rect(235, 0, 30, 100);
   circle(210, 15, 45);
   circle(290, 15, 45);
-  // PLUG HOLE
-  fill('#787987')
-  circle(250, 145, 45);
+  // SINK
+  fill('#D2D3DE')
+  rect(0, 0, 500, 50);
+  rect(0, 450, 500, 50);
+  rect(0, 0, 50, 500);
+  rect(450, 0, 50, 500);
   //ENTRANCE
   fill('#6B8AB1')
   rect(440, 200, 60, 100);
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
+}
+
+function drawLakeRipples() {
+  let level = amplitude.getLevel();
+  level *= 5; // boost small values
+  let lakeRadius = 300;
+  let size = map(level, 0, 1, 0, lakeRadius * 2);
+
+  noFill();
+  strokeWeight(3);
+
+  // outer ripple
+  stroke('#88B0C3')
+  ellipse(width/2, height/2, size, size);
+  // middle ripple
+  stroke('#95BACB')
+  ellipse(width/2, height/2, size*0.75, size*0.75);
+  // inner ripple
+  stroke('#A9C7D6');
+  ellipse(width/2, height/2, size*0.5, size*0.5);
+  
+  noStroke();
 }
 
 function drawStats(health, activePowerup) {
@@ -131,6 +157,14 @@ function drawStats(health, activePowerup) {
   }
   circle(20, 24, 30)
   text(health, 40, 35);
+}
+
+function togglePlay() {
+  if (sound.isPlaying()) {
+    sound.pause();
+  } else {
+    sound.loop();
+  }
 }
 
 function keyPressed() {
@@ -177,6 +211,8 @@ function keyPressed() {
       console.log("d");
       duck.attack("right")
       break;
-
+    case "p":
+      togglePlay();
+      break;
   }
 }
