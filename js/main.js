@@ -66,7 +66,7 @@ function setup() {
   duck = new Duck(250, 250, 100, duckImage)
   fft = new p5.FFT();
   amplitude = new p5.Amplitude();
-  sound.amp(0.2);
+  peakDetect = new p5.PeakDetect();
 }
 
 function draw() {
