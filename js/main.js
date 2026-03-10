@@ -49,6 +49,29 @@ function draw() {
   background('#7CA5B8');
   noStroke()
   ellipseMode(CENTER);
+
+  duck.draw()
+
+  for (let wave of attackWaves) {
+    wave.draw()
+    wave.move()
+
+    for (let enemy of enemies) {
+      enemy.contact(wave.x, wave.y);
+    }
+  }
+
+  enemies = enemies.filter(e => !e.dead);
+  enemies.forEach(enemy => {
+    enemy.move()
+    enemy.draw()
+    duck.contact(enemy.x, enemy.y)
+  });
+
+  drawBath()
+}
+
+function drawBath() {
   // SINK
   fill('#D2D3DE')
   rect(0, 0, 500, 50);
@@ -68,21 +91,6 @@ function draw() {
   rect(440, 200, 60, 100);
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
-  duck.draw()
-
-  for (let wave of attackWaves) {
-    wave.draw()
-    wave.move()
-
-    for (let enemy of enemies) {
-      enemy.contact(wave.x, wave.y);
-    }
-  }
-  enemies.forEach(enemy => {
-    enemy.move()
-    enemy.draw()
-    duck.contact(enemy.x, enemy.y)
-  });
 }
 
 function keyPressed() {
