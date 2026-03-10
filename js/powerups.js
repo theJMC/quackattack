@@ -39,12 +39,14 @@ class HealthPack extends Powerup {
         this.color = "green";
         this.healAmount = 25;
         this.label = "+";
+        this.tintColor = [0, 255, 0]; // green tint
     }
 
     apply(player) {
         this.active = false;
         player.health = Math.min(player.health + this.healAmount, player.maxHealth);
         player.activePowerup = null; 
+        player.activePowerupTint = null;
     }
 }
 
@@ -53,13 +55,15 @@ class Shield extends Powerup {
         super(x, y);
         this.color = "blue";
         this.duration = 4000; // 4 seconds
-        
+        this.tintColor = [100, 100, 255]; // blue tint
+
     }
 
     apply(player) {
         this.active = false;
         setTimeout(() => {
             player.activePowerup = null;
+            player.activePowerupTint = null;
         }, this.duration);
     }
 }
@@ -69,7 +73,8 @@ class MultiShot extends Powerup {
         super(x, y);
         this.color = "purple";
         this.duration = 7000;
-        
+        this.tintColor = [255, 100, 255]; // appears pinkish-purple on yellow duck
+
     }
 
     apply(player) {
@@ -78,6 +83,7 @@ class MultiShot extends Powerup {
         setTimeout(() => {
             player.attackCount = 1;
             player.activePowerup = null;
+            player.activePowerupTint = null;
         }, this.duration);
     }
 }

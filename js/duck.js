@@ -8,10 +8,20 @@ class Duck {
     this.direction = direction
     this.move_speed = move_speed
     this.activePowerup = activePowerup
+    this.hitTimer = 0
   }
   draw() {
+    if (this.hitTimer > 0) {
+      tint(255, 0, 0);
+      this.hitTimer--;
+    } else if (this.activePowerupTint) {
+      tint(...this.activePowerupTint);
+    } else {
+      noTint();
+    }
     // draw duck
     image(this.image, this.x, this.y, 50, 50)
+    noTint();
   }
   moveUp() {
     this.y = this.y - this.move_speed
@@ -39,16 +49,20 @@ class Duck {
     newAttackWave(this.x, this.y, direction)
     console.log('attack')
   }
-  contact(enemyX, enemyY) {
+  contact(enemyX, enemyY, enemy) {
     if (
       enemyX >= this.x - 30 &&
       enemyX <= this.x + 30 &&
       enemyY >= this.y - 30 &&
       enemyY <= this.y + 30
     ) {
-      if (this.activePowerup != "Shield") {
-        this.health--;
+      if (this.activePowerup != "Shield" && !enemy.hasDealtDamage) {
+        this.health -= 10;
+        this.hitTimer = 10;
       }
+      enemy.health = 0;
+      enemy.dying = true;
+      enemy.hasDealtDamage = true;
       console.log('duck owch!', this.health)
     }
   }
@@ -58,6 +72,7 @@ class Duck {
       this.y < powerup.y + powerup.height &&
       this.y + 50 > powerup.y) {
         this.activePowerup = powerup.constructor.name
+        this.activePowerupTint = powerup.tintColor || null;
         powerup.apply(this)
         return true
     }

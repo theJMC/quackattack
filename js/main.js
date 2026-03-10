@@ -5,9 +5,22 @@ let duckImage
 let powerups = []
 let myFont;
 let enemySpriteSheet;
-let sound;
 let lastPowerupSpawnTime = 0;
 let powerupSpawnInterval = 8000;
+let gameState = "menu"; // "menu", "playing", "gameover"
+let songPaths = [
+  '/assets/songs/English Beat - Mirror In the Bathroom Remaster.mp3',
+  '/assets/songs/Bubble Pop Electric Remastered 2019.mp3',
+  '/assets/songs/Sabrina Carpenter - Tears.mp3'
+];
+let songNames = [
+  'Mirror In the Bathroom',
+  'Bubble Pop Electric',
+  'Tears'
+];
+let songs = [];
+let selectedSongIndex = 0;
+
 
 function addEnemy() {
   let directions = ['n', 'e', 's', 'w'];
@@ -51,7 +64,9 @@ function preload() {
   myFont = loadFont('assets/font/PressStart2P-Regular.ttf');
   duckImage = loadImage('assets/duck/duck_water.png');
   enemySpriteSheet = loadImage('assets/enemy/enemy_spritesheet.png');
-  sound = loadSound('/assets/songs/English Beat - Mirror In the Bathroom Remaster.mp3');
+  for (let path of songPaths) {
+    songs.push(loadSound(path));
+  }
 }
 
 function setup() {
@@ -63,10 +78,79 @@ function setup() {
   duck = new Duck(250, 250, 100, duckImage)
   fft = new p5.FFT();
   amplitude = new p5.Amplitude();
-  sound.amp(0.2);
 }
 
 function draw() {
+  if (gameState === "menu") {
+    drawStartMenu();
+  } else if (gameState === "playing") {
+    drawGame();
+  }
+}
+
+function startGame() {
+  gameState = "playing";
+  duck = new Duck(250, 250, 100, duckImage);
+  enemies = [];
+  attackWaves = [];
+  powerups = [];
+  lastPowerupSpawnTime = millis();
+
+  // Stop any currently playing song and play the selected one
+  for (let s of songs) {
+    s.stop();
+  }
+  sound = songs[selectedSongIndex];
+  sound.amp(0.2);
+  sound.loop();
+}
+
+function drawStartMenu() {
+  background('#7CA5B8');
+
+  // Title
+  fill('#D2D3DE');
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text("QUACK", width / 2, height / 2 - 120);
+  text("ATTACK", width / 2, height / 2 - 80);
+
+  // Duck image
+  if (duckImage) {
+    image(duckImage, width / 2, height / 2 - 30, 64, 64);
+  }
+
+  // Song selection
+  textSize(10);
+  fill(200);
+  text("SELECT A SONG", width / 2, height / 2 + 30);
+
+  for (let i = 0; i < songNames.length; i++) {
+    if (i === selectedSongIndex) {
+      fill(255, 255, 0);
+      text("> " + songNames[i] + " <", width / 2, height / 2 + 60 + i * 25);
+    } else {
+      fill(200);
+      text(songNames[i], width / 2, height / 2 + 60 + i * 25);
+    }
+  }
+
+  // Controls hint
+  textSize(8);
+  fill(180);
+  text("UP/DOWN TO SELECT", width / 2, height / 2 + 155);
+
+  // Start prompt (blinking)
+  if (frameCount % 60 < 40) {
+    fill(255);
+    textSize(14);
+    text("PRESS SPACE TO START", width / 2, height / 2 + 180);
+  }
+
+  textAlign(LEFT, BASELINE);
+}
+
+function drawGame() {
   background('#7CA5B8');
   drawLakeRipples();
   // PLUG HOLE
@@ -100,7 +184,7 @@ function draw() {
   enemies.forEach(enemy => {
     enemy.move()
     enemy.draw()
-    duck.contact(enemy.x, enemy.y)
+    duck.contact(enemy.x, enemy.y, enemy)
   });
 
   drawBath()
@@ -168,6 +252,17 @@ function togglePlay() {
 }
 
 function keyPressed() {
+   if (gameState === "menu") {
+    if (keyCode === UP_ARROW) {
+      selectedSongIndex = (selectedSongIndex - 1 + songNames.length) % songNames.length;
+    } else if (keyCode === DOWN_ARROW) {
+      selectedSongIndex = (selectedSongIndex + 1) % songNames.length;
+    } else if (key === " ") {
+      startGame();
+    }
+    return;
+  }
+
   switch (keyCode) {
     case LEFT_ARROW:
       duck.moveLeft()

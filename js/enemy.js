@@ -25,6 +25,8 @@ class Enemy {
     this.deathSpeed = 8
     this.dying = false
     this.displaySize = 32
+
+    this.hasDealtDamage = false;
   }
 
   getFramePosition(frameIndex) {
