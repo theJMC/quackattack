@@ -1,6 +1,5 @@
 const MOVEMENT_SPEED = 5
 
-
 class Duck {
   constructor(x, y, h, duckImage) {
     this.x = x
