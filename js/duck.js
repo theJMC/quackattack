@@ -62,4 +62,4 @@ class Duck {
         return true
     }
   }
-}
+} 
