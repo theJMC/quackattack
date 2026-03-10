@@ -4,6 +4,7 @@ let attackWaves = []
 let duckImage
 let powerups = []
 let myFont;
+let enemySpriteSheet;
 
 function addEnemy() {
   let directions = ['n', 'e', 's', 'w'];
@@ -27,7 +28,7 @@ function addEnemy() {
       x = 50;
       y = random(210, 290);
   }
-  enemies.push(new Enemy(x, y, choice))
+  enemies.push(new Enemy(x, y, choice, enemySpriteSheet))
 }
 
 function newAttackWave(x, y, direction) {
@@ -45,7 +46,8 @@ function newAttackWave(x, y, direction) {
 
 function preload() {
   myFont = loadFont('assets/font/PressStart2P-Regular.ttf');
-  duckImage = loadImage('assets/duck/duck_water.png')
+  duckImage = loadImage('assets/duck/duck_water.png');
+  enemySpriteSheet = loadImage('assets/enemy/enemy_spritesheet.png');
 }
 
 function setup() {
