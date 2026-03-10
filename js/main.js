@@ -8,6 +8,9 @@ let enemySpriteSheet;
 let sound;
 let lastPowerupSpawnTime = 0;
 let powerupSpawnInterval = 8000;
+const bpm = 113;
+let spawnInterval = 60000 / bpm;
+let lastSpawnTime = 0;
 
 function addEnemy() {
   let directions = ['n', 'e', 's', 'w'];
@@ -51,7 +54,7 @@ function preload() {
   myFont = loadFont('assets/font/PressStart2P-Regular.ttf');
   duckImage = loadImage('assets/duck/duck_water.png');
   enemySpriteSheet = loadImage('assets/enemy/enemy_spritesheet.png');
-  sound = loadSound('assets/songs/English Beat - Mirror In the Bathroom Remaster.mp3');
+  sound = loadSound('/assets/songs/Sabrina Carpenter - Tears.mp3');
 }
 
 function setup() {
@@ -73,12 +76,6 @@ function draw() {
   fill('#787987')
   circle(250, 145, 45);
 
-  if (millis() - lastPowerupSpawnTime > powerupSpawnInterval && powerups.length < 2) {
-    powerups.push(spawnRandomPowerup(random(80, 420), random(80, 420)));
-    lastPowerupSpawnTime = millis();
-    // Randomize next interval between 6–12 seconds so it feels less predictable
-    powerupSpawnInterval = random(6000, 12000);
-  }
   powerups.forEach(powerup => {
       powerup.draw()
       duck.collidePowerup(powerup)
@@ -105,6 +102,36 @@ function draw() {
 
   drawBath()
   drawStats(duck.health, duck.activePowerup)
+  soundToEnemy()
+  soundToPowerup()
+}
+
+function soundToPowerup() {  
+  peakDetect.update(fft);
+  
+  if (peakDetect.isDetected) {
+    powerups.push(spawnRandomPowerup(random(80, 420), random(80, 420)));
+  }
+}
+
+function soundToEnemy() {
+  let currentTime = millis();
+
+  // Only spawn if enough time has passed according to BPM
+  if ((currentTime - lastSpawnTime) > spawnInterval) {
+    fft.analyze();
+    let bass = fft.getEnergy("bass");
+    let lowMid = fft.getEnergy("lowMid");
+    let highMid = fft.getEnergy("highMid");
+    let treble = fft.getEnergy("treble");
+
+    if (bass > 200) enemies.push(new Enemy(random(210, 290), 450, 's'));
+    if (highMid > 200) enemies.push(new Enemy(random(210, 290), 50, 'n'));
+    if (lowMid > 200) enemies.push(new Enemy(450, random(210, 290), 'e'));
+    if (treble > 200) enemies.push(new Enemy(50, random(210, 290), 'w'));
+
+    lastSpawnTime = currentTime;  // reset spawn timer
+  }
 }
 
 function drawBath() {
