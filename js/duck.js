@@ -1,10 +1,11 @@
 const MOVEMENT_SPEED = 5
 
 class Duck {
-  constructor(x, y, h, duckImage, direction="left", activePowerup = null, move_speed=MOVEMENT_SPEED) {
+  constructor(x, y, h, duckImage, direction="left", activePowerup = null, move_speed=MOVEMENT_SPEED, maxHealth = 100) {
     this.x = x
     this.y = y
     this.health = h
+    this.maxHealth = maxHealth
     this.image = duckImage
     this.direction = direction
     this.move_speed = move_speed
@@ -47,7 +48,9 @@ class Duck {
       enemyY >= this.y - 75 &&
       enemyY <= this.y + 75
     ) {
-      this.health--;
+      if (this.activePowerup != "Shield") {
+        this.health--;
+      }
       console.log('duck owch!', this.health)
     }
   }

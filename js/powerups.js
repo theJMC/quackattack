@@ -38,11 +38,13 @@ class HealthPack extends Powerup {
         super(x, y);
         this.color = "green";
         this.healAmount = 25;
+        this.label = "+";
     }
 
     apply(player) {
         this.active = false;
         player.health = Math.min(player.health + this.healAmount, player.maxHealth);
+        player.activePowerup = null; 
     }
 }
 
@@ -51,13 +53,13 @@ class Shield extends Powerup {
         super(x, y);
         this.color = "blue";
         this.duration = 4000; // 4 seconds
+        
     }
 
     apply(player) {
         this.active = false;
-        player.invincible = true;
         setTimeout(() => {
-            player.invincible = false;
+            player.activePowerup = null;
         }, this.duration);
     }
 }
@@ -67,6 +69,7 @@ class MultiShot extends Powerup {
         super(x, y);
         this.color = "purple";
         this.duration = 7000;
+        
     }
 
     apply(player) {
@@ -74,6 +77,7 @@ class MultiShot extends Powerup {
         player.attackCount = 4; // fire in all 4 directions
         setTimeout(() => {
             player.attackCount = 1;
+            player.activePowerup = null;
         }, this.duration);
     }
 }

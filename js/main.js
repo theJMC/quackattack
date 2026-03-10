@@ -63,7 +63,9 @@ function draw() {
 
   powerups.forEach(powerup => {
       powerup.draw()
+      duck.collidePowerup(powerup)
   });
+  powerups = powerups.filter(p => p.active);
 
   duck.draw()
 
