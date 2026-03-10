@@ -103,7 +103,7 @@ function draw() {
   });
 
   
-  drawStats(duck.health)
+  drawStats(duck.health, duck.activePowerup)
 }
 
 function drawBath() {
@@ -122,9 +122,13 @@ function drawBath() {
   rect(200, 440, 100, 60);
 }
 
-function drawStats(health) {
+function drawStats(health, activePowerup) {
   textSize(30);
-  fill(0);
+  if (activePowerup && activePowerup === "Shield") {
+    fill(0, 0, 255);
+  } else {
+    fill(0);
+  }
   circle(20, 24, 30)
   text(health, 40, 35);
 }

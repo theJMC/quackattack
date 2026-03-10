@@ -57,7 +57,6 @@ class Duck {
       this.x + 50 > powerup.x &&
       this.y < powerup.y + powerup.height &&
       this.y + 50 > powerup.y) {
-        console.log('collided with powerup')
         this.activePowerup = powerup.constructor.name
         powerup.apply(this)
         return true
