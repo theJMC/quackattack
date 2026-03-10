@@ -5,6 +5,8 @@ let duckImage
 let powerups = []
 let myFont;
 let enemySpriteSheet;
+let lastPowerupSpawnTime = 0;
+let powerupSpawnInterval = 8000;
 
 function addEnemy() {
   let directions = ['n', 'e', 's', 'w'];
@@ -68,7 +70,14 @@ function draw() {
   rect(0, 450, 500, 50);
   rect(0, 0, 50, 500);
   rect(450, 0, 50, 500);
+  drawBath()
 
+  if (millis() - lastPowerupSpawnTime > powerupSpawnInterval && powerups.length < 2) {
+    powerups.push(spawnRandomPowerup(random(80, 420), random(80, 420)));
+    lastPowerupSpawnTime = millis();
+    // Randomize next interval between 6–12 seconds so it feels less predictable
+    powerupSpawnInterval = random(6000, 12000);
+  }
   powerups.forEach(powerup => {
       powerup.draw()
       duck.collidePowerup(powerup)
@@ -93,7 +102,7 @@ function draw() {
     duck.contact(enemy.x, enemy.y)
   });
 
-  drawBath()
+  
   drawStats(duck.health)
 }
 
@@ -145,19 +154,24 @@ function keyPressed() {
   } 
   switch (key) {
     case " ":
+      this.direction = duck.direction
       duck.attack()
       break;
     case "w":
       console.log("w");
+      duck.attack("up")
       break;
     case "a":
       console.log("a");
+      duck.attack("left")
       break;
     case "s":
       console.log("s");
+      duck.attack("down")
       break;
     case "d":
       console.log("d");
+      duck.attack("right")
       break;
 
   }

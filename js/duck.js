@@ -1,7 +1,5 @@
-const MOVEMENT_SPEED = 5
-
 class Duck {
-  constructor(x, y, h, duckImage, direction="left", activePowerup = null, move_speed=MOVEMENT_SPEED, maxHealth = 100) {
+  constructor(x, y, h, duckImage, direction="left", activePowerup = null, move_speed=10, maxHealth = 100) {
     this.x = x
     this.y = y
     this.health = h
@@ -31,10 +29,10 @@ class Duck {
     this.x = this.x + this.move_speed
     this.direction = 'right'
   }
-  attack() {
-    let direction
+  attack(attackDirection) {
+    let direction 
     if(this.activePowerup != "MultiShot") {
-      direction = this.direction
+      direction = attackDirection || this.direction
     }else{
       direction = "all"
     }
