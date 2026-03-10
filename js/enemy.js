@@ -4,6 +4,7 @@ class Enemy {
     this.y = y
     this.health = 100
     this.direction = d
+    this.dead = false
   }
   draw() {
     // draw enemy
@@ -23,6 +24,25 @@ class Enemy {
             break;
         default:
             this.x++
+    }
+    if (this.x > 550 || 
+        this.x < 0 ||
+        this.y > 550 || 
+        this.y < 0) {
+      this.dead = true
+    }
+  }
+  contact(attackX, attackY) {
+    if (
+      attackX >= this.x - 25 &&
+      attackX <= this.x + 25 &&
+      attackY >= this.y - 25 &&
+      attackY <= this.y + 25
+    ) {
+      this.health-=100;
+    }
+    if (this.health <= 0){
+      this.dead = true
     }
   }
 }

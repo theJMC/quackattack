@@ -3,6 +3,7 @@ let enemies = []
 let attackWaves = []
 let duckImage
 let powerups = []
+let myFont;
 
 function addEnemy() {
   let directions = ['n', 'e', 's', 'w'];
@@ -42,22 +43,50 @@ function newAttackWave(x, y, direction) {
   attackWaves.push(...waves)
 }
 
-function preloadDuck() {
+function preload() {
+  myFont = loadFont('assets/font/PressStart2P-Regular.ttf');
   duckImage = loadImage('assets/duck/duck_water.png')
 }
 
 function setup() {
   createCanvas(500, 500);
   imageMode(CENTER)
-  preloadDuck()
+  ellipseMode(CENTER);
+  noStroke()
+  textFont(myFont);
   duck = new Duck(250, 250, 100, duckImage)
   addEnemy()
 }
 
 function draw() {
   background('#7CA5B8');
-  noStroke()
-  ellipseMode(CENTER);
+
+  powerups.forEach(powerup => {
+      powerup.draw()
+  });
+
+  duck.draw()
+
+  for (let wave of attackWaves) {
+    wave.draw()
+    wave.move()
+
+    for (let enemy of enemies) {
+      enemy.contact(wave.x, wave.y);
+    }
+  }
+
+  enemies = enemies.filter(e => !e.dead);
+  enemies.forEach(enemy => {
+    enemy.move()
+    enemy.draw()
+    duck.contact(enemy.x, enemy.y)
+  });
+
+  drawBath()
+}
+
+function drawBath() {
   // SINK
   fill('#D2D3DE')
   rect(0, 0, 500, 50);
@@ -77,21 +106,6 @@ function draw() {
   rect(440, 200, 60, 100);
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
-
-  powerups.forEach(powerup => {
-    powerup.draw()
-  });
-
-  duck.draw()
-
-  for (let wave of attackWaves) {
-    wave.draw()
-  }
-  enemies.forEach(enemy => {
-    enemy.move()
-    enemy.draw()
-  });
-
 }
 
 function keyPressed() {

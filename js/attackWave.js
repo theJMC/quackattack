@@ -1,6 +1,5 @@
 const WAVE_SPEED = 5
 
-
 class AttackWave {
   constructor(x, y, direction, speed = WAVE_SPEED, size = 20) {
     this.x = x
@@ -12,10 +11,11 @@ class AttackWave {
   }
 
   draw() {
-    // draw duck
+    // draw attack
     fill('#777777') // TEMP
     circle(this.x, this.y, this.size) // TEMP
-
+  }
+  move() {
     switch (this.direction) {
       case 'up':
         this.y = this.y - this.speed
@@ -37,5 +37,4 @@ class AttackWave {
         break;
     }
   }
-
 }
