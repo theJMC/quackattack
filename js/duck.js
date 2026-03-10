@@ -2,32 +2,51 @@ const MOVEMENT_SPEED = 5
 
 
 class Duck {
-  constructor(x, y, h, duckImage) {
+  constructor(x, y, h, duckImage, direction="left", activePowerup = null, move_speed=MOVEMENT_SPEED) {
     this.x = x
     this.y = y
     this.health = h
     this.image = duckImage
+    this.direction = direction
+    this.move_speed = move_speed
+    this.activePowerup = activePowerup
   }
   draw() {
     // draw duck
     image(this.image, this.x, this.y, 50, 50)
   }
   moveUp() {
-    this.y = this.y - MOVEMENT_SPEED
+    this.y = this.y - this.move_speed
   }
   moveDown() {
-    this.y = this.y + MOVEMENT_SPEED
+    this.y = this.y + this.move_speed
   }
   moveLeft() {
-    this.x = this.x - MOVEMENT_SPEED
+    this.x = this.x - this.move_speed
   }
   moveRight() {
-    this.x = this.x + MOVEMENT_SPEED
+    this.x = this.x + this.move_speed
   }
   attack() {
-    let direction = "left"
+    let direction
+    if(this.activePowerup != "MultiShot") {
+      direction = this.direction
+    }else{
+      direction = "all"
+    }
     newAttackWave(this.x, this.y, direction)
     console.log('attack')
 
+  }
+  collidePowerup(powerup) {
+    if (this.x < powerup.x + powerup.width &&
+      this.x + 50 > powerup.x &&
+      this.y < powerup.y + powerup.height &&
+      this.y + 50 > powerup.y) {
+        console.log('collided with powerup')
+        this.activePowerup = powerup.constructor.name
+        powerup.apply(this)
+        return true
+    }
   }
 }

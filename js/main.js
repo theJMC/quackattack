@@ -2,6 +2,7 @@ let duck
 let enemies = []
 let attackWaves = []
 let duckImage
+let powerups = []
 
 function addEnemy() {
   let directions = ['n', 'e', 's', 'w'];
@@ -29,8 +30,16 @@ function addEnemy() {
 }
 
 function newAttackWave(x, y, direction) {
-  let wave = new AttackWave(x, y, direction)
-  attackWaves.push(wave)
+  let waves = []
+   if (direction === 'all') {
+    waves.push(new AttackWave(x, y, 'up'))
+    waves.push(new AttackWave(x, y, 'down'))
+    waves.push(new AttackWave(x, y, 'left'))
+    waves.push(new AttackWave(x, y, 'right'))
+  } else {
+    waves.push(new AttackWave(x, y, direction))
+  }
+  attackWaves.push(...waves)
 }
 
 function preloadDuck() {
@@ -68,6 +77,11 @@ function draw() {
   rect(440, 200, 60, 100);
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
+
+  powerups.forEach(powerup => {
+    powerup.draw()
+  });
+
   duck.draw()
 
   for (let wave of attackWaves) {
@@ -77,6 +91,7 @@ function draw() {
     enemy.move()
     enemy.draw()
   });
+
 }
 
 function keyPressed() {
@@ -96,6 +111,10 @@ function keyPressed() {
     case ENTER:
       console.log("enter");
       addEnemy();
+      break;
+    case BACKSPACE:
+      console.log("backspace");
+      powerups.push(spawnRandomPowerup(random(50, 400), random(50, 400)))
       break;
   } 
   switch (key) {
