@@ -71,6 +71,7 @@ function draw() {
   });
 
   drawBath()
+  drawStats(duck.health)
 }
 
 function drawBath() {
@@ -93,6 +94,13 @@ function drawBath() {
   rect(440, 200, 60, 100);
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
+}
+
+function drawStats(health) {
+  textSize(30);
+  fill(0);
+  circle(20, 34, 30)
+  text(health, 40, 45);
 }
 
 function keyPressed() {
