@@ -60,6 +60,12 @@ function setup() {
 
 function draw() {
   background('#7CA5B8');
+  // SINK
+  fill('#D2D3DE')
+  rect(0, 0, 500, 50);
+  rect(0, 450, 500, 50);
+  rect(0, 0, 50, 500);
+  rect(450, 0, 50, 500);
 
   powerups.forEach(powerup => {
       powerup.draw()
@@ -90,12 +96,6 @@ function draw() {
 }
 
 function drawBath() {
-  // SINK
-  fill('#D2D3DE')
-  rect(0, 0, 500, 50);
-  rect(0, 450, 500, 50);
-  rect(0, 0, 50, 500);
-  rect(450, 0, 50, 500);
   //TAP
   fill('#B4B5C1')
   rect(235, 0, 30, 100);
