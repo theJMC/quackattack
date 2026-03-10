@@ -2,6 +2,7 @@ let duck
 let enemies = []
 let attackWaves = []
 let duckImage
+let myFont;
 
 function addEnemy() {
   let directions = ['n', 'e', 's', 'w'];
@@ -33,22 +34,23 @@ function newAttackWave(x, y, direction) {
   attackWaves.push(wave)
 }
 
-function preloadDuck() {
+function preload() {
+  myFont = loadFont('assets/font/PressStart2P-Regular.ttf');
   duckImage = loadImage('assets/duck/duck_water.png')
 }
 
 function setup() {
   createCanvas(500, 500);
   imageMode(CENTER)
-  preloadDuck()
+  ellipseMode(CENTER);
+  noStroke()
+  textFont(myFont);
   duck = new Duck(250, 250, 100, duckImage)
   addEnemy()
 }
 
 function draw() {
   background('#7CA5B8');
-  noStroke()
-  ellipseMode(CENTER);
 
   duck.draw()
 

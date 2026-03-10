@@ -40,6 +40,7 @@ class Duck {
       enemyY <= this.y + 75
     ) {
       this.health--;
+      console.log('duck owch!', this.health)
     }
   }
 }
