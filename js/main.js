@@ -99,8 +99,8 @@ function drawBath() {
 function drawStats(health) {
   textSize(30);
   fill(0);
-  circle(20, 34, 30)
-  text(health, 40, 45);
+  circle(20, 24, 30)
+  text(health, 40, 35);
 }
 
 function keyPressed() {
