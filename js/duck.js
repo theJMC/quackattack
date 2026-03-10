@@ -1,15 +1,16 @@
 const MOVEMENT_SPEED = 5
 
+
 class Duck {
-  constructor(x, y, h) {
+  constructor(x, y, h, duckImage) {
     this.x = x
     this.y = y
     this.health = h
+    this.image = duckImage
   }
   draw() {
     // draw duck
-    fill('#EFC66F') // TEMP
-    circle(this.x, this.y, 50) // TEMP
+    image(this.image, this.x, this.y, 50, 50)
   }
   moveUp() {
     this.y = this.y - MOVEMENT_SPEED

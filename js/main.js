@@ -1,7 +1,7 @@
 let duck
 let enemies = []
 let attackWaves = []
-
+let duckImage
 
 function addEnemy() {
   let directions = ['n', 'e', 's', 'w'];
@@ -33,9 +33,15 @@ function newAttackWave(x, y, direction) {
   attackWaves.push(wave)
 }
 
+function preloadDuck() {
+  duckImage = loadImage('assets/duck/duck_water.png')
+}
+
 function setup() {
   createCanvas(500, 500);
-  duck = new Duck(250, 250, 100)
+  imageMode(CENTER)
+  preloadDuck()
+  duck = new Duck(250, 250, 100, duckImage)
   addEnemy()
 }
 
