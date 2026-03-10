@@ -43,10 +43,10 @@ class Duck {
   }
   contact(enemyX, enemyY) {
     if (
-      enemyX >= this.x - 75 &&
-      enemyX <= this.x + 75 &&
-      enemyY >= this.y - 75 &&
-      enemyY <= this.y + 75
+      enemyX >= this.x - 30 &&
+      enemyX <= this.x + 30 &&
+      enemyY >= this.y - 30 &&
+      enemyY <= this.y + 30
     ) {
       if (this.activePowerup != "Shield") {
         this.health--;
