@@ -9,5 +9,8 @@ In Quack Attack you play as a rubber duck fighting enemies
 ## Advanced
 - Song turns into enemy that comes from all 4 corners 50%
 - Duck QUACK comes from voice
-- Duck movement comes from voice
-- Song turns into powerups
+- Duck movement comes from voice ??
+- Ripple needs moving
+- Enemies go towards duck
+- End screens (win - continue/lose)
+
