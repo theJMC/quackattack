@@ -51,7 +51,6 @@ class Duck {
       direction = "all"
     }
     newAttackWave(this.x, this.y, direction)
-    console.log('attack')
   }
   contact(enemyX, enemyY, enemy) {
     if (
@@ -67,7 +66,6 @@ class Duck {
       enemy.health = 0;
       enemy.dying = true;
       enemy.hasDealtDamage = true;
-      console.log('duck owch!', this.health)
     }
   }
   collidePowerup(powerup) {

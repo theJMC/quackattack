@@ -356,7 +356,7 @@ function drawWinScreen() {
 function soundToPowerup() {  
   peakDetect.update(fft);
   
-  if (peakDetect.isDetected) {
+  if (peakDetect.isDetected && powerups.length <= 5) {
     powerups.push(spawnRandomPowerup(random(80, 420), random(80, 420)));
   }
 }
