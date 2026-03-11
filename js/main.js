@@ -276,13 +276,14 @@ function drawLakeRipples() {
 
 function drawStats(health, activePowerup) {
   textSize(30);
+  textAlign(CENTER, CENTER);
   if (activePowerup && activePowerup === "Shield") {
     fill(0, 0, 255);
   } else {
     fill(0);
   }
-  circle(20, 24, 30)
-  text(health, 40, 35);
+  circle(25, 25, 25)
+  text(health, 100, 25);
 }
 
 function togglePlay() {
