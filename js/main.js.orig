@@ -81,7 +81,10 @@ function setup() {
   duck = new Duck(250, 250, 100, duckImage)
   fft = new p5.FFT();
   amplitude = new p5.Amplitude();
+<<<<<<< HEAD
+=======
   peakDetect = new p5.PeakDetect();
+>>>>>>> a791c94c148c2902dbf6576457f366a26dfb1ab0
 }
 
 function draw() {
