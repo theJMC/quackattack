@@ -82,3 +82,13 @@ class Duck {
     }
   }
 } 
+
+window.addEventListener('DOMContentLoaded',()=>{
+  navigator.mediaDevices.getUserMedia({ audio: true })
+  .then(function(stream) {
+    console.log('Microphone access granted');
+  })
+  .catch(function(err) {
+    console.error('Microphone access denied: ' + err);
+  });
+})
