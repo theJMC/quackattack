@@ -18,11 +18,13 @@ let songNames = [
   'Bubble Pop Electric',
   'Tears'
 ];
+let songspawnInterval = [
+  60000 / 86,
+  60000 / 113,
+  60000 / 194
+]
 let songs = [];
 let selectedSongIndex = 0;
-
-const bpm = 113;
-let spawnInterval = 60000 / bpm;
 let lastSpawnTime = 0;
 
 function addEnemy() {
@@ -203,7 +205,7 @@ function soundToEnemy() {
   let currentTime = millis();
 
   // Only spawn if enough time has passed according to BPM
-  if ((currentTime - lastSpawnTime) > spawnInterval) {
+  if ((currentTime - lastSpawnTime) > songspawnInterval[selectedSongIndex]) {
     fft.analyze();
     let bass = fft.getEnergy("bass");
     let lowMid = fft.getEnergy("lowMid");
