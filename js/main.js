@@ -18,19 +18,19 @@ let songNames = [
   'Bubble Pop Electric',
   'Tears'
 ];
+let songspawnInterval = [
+  60000 / 86,
+  60000 / 113,
+  60000 / 194
+]
 let songs = [];
 let selectedSongIndex = 0;
-
-const bpm = 113;
-let spawnInterval = 60000 / bpm;
 let lastSpawnTime = 0;
 
-function addEnemy() {
-  let directions = ['n', 'e', 's', 'w'];
-  let choice = random(directions);
+function addEnemy(direction) {
   let x = 50;
   let y = 50;
-  switch (choice) {
+  switch (direction) {
     case 'n':
       y = 50;
       x = random(210, 290);
@@ -47,7 +47,11 @@ function addEnemy() {
       x = 50;
       y = random(210, 290);
   }
-  enemies.push(new Enemy(x, y, choice, enemySpriteSheet))
+  // 20% change to set direction to duck
+  if (random() < 0.2) {
+    direction = "duck";
+  }
+  enemies.push(new Enemy(x, y, direction, enemySpriteSheet))
 }
 
 function newAttackWave(x, y, direction) {
@@ -81,7 +85,7 @@ function setup() {
   duck = new Duck(250, 250, 100, duckImage)
   fft = new p5.FFT();
   amplitude = new p5.Amplitude();
-  peakDetect = new p5.PeakDetect();
+  peakDetect = new p5.PeakDetect(20, 20000, 0.15, 20);
 }
 
 function draw() {
@@ -199,6 +203,8 @@ function drawGame() {
   powerups = powerups.filter(p => p.active);
 
   duck.draw()
+  duckX = duck.x;
+  duckY = duck.y;
 
   for (let wave of attackWaves) {
     wave.draw()
@@ -222,40 +228,7 @@ function drawGame() {
   soundToPowerup()
 }
 
-function soundToPowerup() {  
-  peakDetect.update(fft);
-  
-  if (peakDetect.isDetected) {
-    powerups.push(spawnRandomPowerup(random(80, 420), random(80, 420)));
-  }
-}
-
-function soundToEnemy() {
-  let currentTime = millis();
-
-  // Only spawn if enough time has passed according to BPM
-  if ((currentTime - lastSpawnTime) > spawnInterval) {
-    fft.analyze();
-    let bass = fft.getEnergy("bass");
-    let lowMid = fft.getEnergy("lowMid");
-    let highMid = fft.getEnergy("highMid");
-    let treble = fft.getEnergy("treble");
-
-    if (bass > 200) enemies.push(new Enemy(random(210, 290), 450, 's', enemySpriteSheet));
-    if (highMid > 200) enemies.push(new Enemy(random(210, 290), 50, 'n', enemySpriteSheet));
-    if (lowMid > 200) enemies.push(new Enemy(450, random(210, 290), 'e', enemySpriteSheet));
-    if (treble > 200) enemies.push(new Enemy(50, random(210, 290), 'w', enemySpriteSheet));
-
-    lastSpawnTime = currentTime;  // reset spawn timer
-  }
-}
-
 function drawBath() {
-  //TAP
-  fill('#B4B5C1')
-  rect(235, 0, 30, 100);
-  circle(210, 15, 45);
-  circle(290, 15, 45);
   // SINK
   fill('#D2D3DE')
   rect(0, 0, 500, 50);
@@ -267,11 +240,16 @@ function drawBath() {
   rect(440, 200, 60, 100);
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
+  //TAP
+  fill('#B4B5C1')
+  rect(235, 0, 30, 100);
+  circle(210, 15, 45);
+  circle(290, 15, 45);
 }
 
 function drawLakeRipples() {
   let level = amplitude.getLevel();
-  level *= 5; // boost small values
+  level *= 2; // boost small values
   let lakeRadius = 300;
   let size = map(level, 0, 1, 0, lakeRadius * 2);
 
@@ -280,13 +258,13 @@ function drawLakeRipples() {
 
   // outer ripple
   stroke('#88B0C3')
-  ellipse(width/2, height/2, size, size);
+  circle(250, 145, size);
   // middle ripple
   stroke('#95BACB')
-  ellipse(width/2, height/2, size*0.75, size*0.75);
+  circle(250, 145, size*0.75);
   // inner ripple
   stroke('#A9C7D6');
-  ellipse(width/2, height/2, size*0.5, size*0.5);
+  circle(250, 145, size*0.5);
   
   noStroke();
 }
@@ -336,9 +314,11 @@ function drawGameOver() {
   textSize(16);
   text("Press ENTER to try again", width / 2, height / 2 + 20);
   textAlign(LEFT, BASELINE);
+  sound.stop();
 }
 
 function drawWinScreen() {
+  sound.stop();
   background('#86c88c');
   fill('#fff');
   textAlign(CENTER, CENTER);
@@ -366,6 +346,33 @@ function drawWinScreen() {
   text("M TO RETURN TO MENU", width / 2, height / 2 + 160);
 
   textAlign(LEFT, BASELINE);
+}
+
+function soundToPowerup() {  
+  peakDetect.update(fft);
+  
+  if (peakDetect.isDetected) {
+    powerups.push(spawnRandomPowerup(random(80, 420), random(80, 420)));
+  }
+}
+
+function soundToEnemy() {
+  let currentTime = millis();
+
+  // Only spawn if enough time has passed according to BPM
+  if ((currentTime - lastSpawnTime) > songspawnInterval[selectedSongIndex]) {
+    fft.analyze();
+    let bass = fft.getEnergy("bass");
+    let lowMid = fft.getEnergy("lowMid");
+    let highMid = fft.getEnergy("highMid");
+    let treble = fft.getEnergy("treble");
+
+    if (treble > 150) addEnemy('n');
+    else if (highMid > 150) addEnemy('w');
+    else if (lowMid > 150) addEnemy('e');
+    else if (bass > 150) addEnemy('s');
+    lastSpawnTime = currentTime;  // reset spawn timer
+  }
 }
 
 function keyPressed() {
@@ -416,7 +423,9 @@ function keyPressed() {
       break;
     case ENTER:
       console.log("enter");
-      addEnemy();
+      let directions = ['n', 'e', 's', 'w'];
+      let choice = random(directions);
+      addEnemy(choice);
       break;
     case BACKSPACE:
       console.log("backspace");
