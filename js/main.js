@@ -9,9 +9,9 @@ let lastPowerupSpawnTime = 0;
 let powerupSpawnInterval = 8000;
 let gameState = "menu"; // "menu", "playing", "gameover"
 let songPaths = [
-  '/assets/songs/English Beat - Mirror In the Bathroom Remaster.mp3',
-  '/assets/songs/Bubble Pop Electric Remastered 2019.mp3',
-  '/assets/songs/Sabrina Carpenter - Tears.mp3'
+  'assets/songs/English Beat - Mirror In the Bathroom Remaster.mp3',
+  'assets/songs/Bubble Pop Electric Remastered 2019.mp3',
+  'assets/songs/Sabrina Carpenter - Tears.mp3'
 ];
 let songNames = [
   'Mirror In the Bathroom',
