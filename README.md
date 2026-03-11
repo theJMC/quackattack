@@ -23,7 +23,7 @@ You control a rubber duck that must survive against incoming enemies.
 - Power-ups – Special powerups spawn and provide temporary effects
 
 ## Tech
-- Voice input mechanics
+- Voice input mechanics ([Teachable Machine](https://teachablemachine.withgoogle.com/))
 - Procedural enemy spawning
 - Power-up systems
 
