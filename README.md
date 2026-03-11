@@ -2,8 +2,8 @@
 - Song turns into enemy that comes from all 4 corners 50%
 - Duck QUACK comes from voice
 - Duck movement comes from voice ??
-- Ripple needs moving
-- Enemies go towards duck
+- Ripple needs moving 100%
+- Enemies go towards duck 100%
 - End screens (win - continue/lose)
 - Sort out health location
 
