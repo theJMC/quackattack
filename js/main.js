@@ -242,7 +242,7 @@ function drawBath() {
 
 function drawLakeRipples() {
   let level = amplitude.getLevel();
-  level *= 5; // boost small values
+  level *= 2; // boost small values
   let lakeRadius = 300;
   let size = map(level, 0, 1, 0, lakeRadius * 2);
 
@@ -251,13 +251,13 @@ function drawLakeRipples() {
 
   // outer ripple
   stroke('#88B0C3')
-  ellipse(width/2, height/2, size, size);
+  circle(250, 145, size);
   // middle ripple
   stroke('#95BACB')
-  ellipse(width/2, height/2, size*0.75, size*0.75);
+  circle(250, 145, size*0.75);
   // inner ripple
   stroke('#A9C7D6');
-  ellipse(width/2, height/2, size*0.5, size*0.5);
+  circle(250, 145, size*0.5);
   
   noStroke();
 }
