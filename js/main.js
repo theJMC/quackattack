@@ -210,10 +210,10 @@ function soundToEnemy() {
     let highMid = fft.getEnergy("highMid");
     let treble = fft.getEnergy("treble");
 
-    if (bass > 150) addEnemy('s');
-    if (highMid > 150) addEnemy('n');
-    if (lowMid > 150) addEnemy('e');
-    if (treble > 150) addEnemy('w');
+    if (treble > 150) addEnemy('n');
+    else if (highMid > 150) addEnemy('w');
+    else if (lowMid > 150) addEnemy('e');
+    else if (bass > 150) addEnemy('s');
     lastSpawnTime = currentTime;  // reset spawn timer
   }
 }
