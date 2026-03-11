@@ -305,6 +305,9 @@ function keyPressed() {
       break;
     case ENTER:
       console.log("enter");
+      let directions = ['n', 'e', 's', 'w'];
+      let choice = random(directions);
+      addEnemy(choice);
       break;
     case BACKSPACE:
       console.log("backspace");
