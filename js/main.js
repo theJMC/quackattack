@@ -220,11 +220,6 @@ function soundToEnemy() {
 }
 
 function drawBath() {
-  //TAP
-  fill('#B4B5C1')
-  rect(235, 0, 30, 100);
-  circle(210, 15, 45);
-  circle(290, 15, 45);
   // SINK
   fill('#D2D3DE')
   rect(0, 0, 500, 50);
@@ -236,6 +231,11 @@ function drawBath() {
   rect(440, 200, 60, 100);
   rect(0, 200, 60, 100);
   rect(200, 440, 100, 60);
+  //TAP
+  fill('#B4B5C1')
+  rect(235, 0, 30, 100);
+  circle(210, 15, 45);
+  circle(290, 15, 45);
 }
 
 function drawLakeRipples() {
