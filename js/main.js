@@ -211,7 +211,7 @@ function soundToEnemy() {
     let treble = fft.getEnergy("treble");
 
     if (bass > 150) addEnemy('s');
-    if (highMid > 150) addEnemy('n);
+    if (highMid > 150) addEnemy('n');
     if (lowMid > 150) addEnemy('e');
     if (treble > 150) addEnemy('w');
     lastSpawnTime = currentTime;  // reset spawn timer
