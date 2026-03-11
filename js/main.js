@@ -427,13 +427,11 @@ function keyPressed() {
       duck.moveDown()
       break;
     case ENTER:
-      console.log("enter");
       let directions = ['n', 'e', 's', 'w'];
       let choice = random(directions);
       addEnemy(choice);
       break;
     case BACKSPACE:
-      console.log("backspace");
       powerups.push(spawnRandomPowerup(random(50, 400), random(50, 400)))
       break;
   } 
@@ -443,19 +441,15 @@ function keyPressed() {
       duck.attack()
       break;
     case "w":
-      console.log("w");
       duck.attack("up")
       break;
     case "a":
-      console.log("a");
       duck.attack("left")
       break;
     case "s":
-      console.log("s");
       duck.attack("down")
       break;
     case "d":
-      console.log("d");
       duck.attack("right")
       break;
     case "p":
