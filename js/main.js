@@ -197,33 +197,6 @@ function drawGame() {
   soundToPowerup()
 }
 
-function soundToPowerup() {  
-  peakDetect.update(fft);
-  
-  if (peakDetect.isDetected) {
-    powerups.push(spawnRandomPowerup(random(80, 420), random(80, 420)));
-  }
-}
-
-function soundToEnemy() {
-  let currentTime = millis();
-
-  // Only spawn if enough time has passed according to BPM
-  if ((currentTime - lastSpawnTime) > songspawnInterval[selectedSongIndex]) {
-    fft.analyze();
-    let bass = fft.getEnergy("bass");
-    let lowMid = fft.getEnergy("lowMid");
-    let highMid = fft.getEnergy("highMid");
-    let treble = fft.getEnergy("treble");
-
-    if (treble > 150) addEnemy('n');
-    else if (highMid > 150) addEnemy('w');
-    else if (lowMid > 150) addEnemy('e');
-    else if (bass > 150) addEnemy('s');
-    lastSpawnTime = currentTime;  // reset spawn timer
-  }
-}
-
 function drawBath() {
   // SINK
   fill('#D2D3DE')
@@ -281,6 +254,33 @@ function togglePlay() {
     sound.pause();
   } else {
     sound.loop();
+  }
+}
+
+function soundToPowerup() {  
+  peakDetect.update(fft);
+  
+  if (peakDetect.isDetected) {
+    powerups.push(spawnRandomPowerup(random(80, 420), random(80, 420)));
+  }
+}
+
+function soundToEnemy() {
+  let currentTime = millis();
+
+  // Only spawn if enough time has passed according to BPM
+  if ((currentTime - lastSpawnTime) > songspawnInterval[selectedSongIndex]) {
+    fft.analyze();
+    let bass = fft.getEnergy("bass");
+    let lowMid = fft.getEnergy("lowMid");
+    let highMid = fft.getEnergy("highMid");
+    let treble = fft.getEnergy("treble");
+
+    if (treble > 150) addEnemy('n');
+    else if (highMid > 150) addEnemy('w');
+    else if (lowMid > 150) addEnemy('e');
+    else if (bass > 150) addEnemy('s');
+    lastSpawnTime = currentTime;  // reset spawn timer
   }
 }
 
