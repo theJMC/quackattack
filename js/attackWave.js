@@ -7,7 +7,6 @@ class AttackWave {
     this.direction = direction
     this.speed = speed
     this.size = size
-    console.log('attack wave created')
   }
 
   draw() {
