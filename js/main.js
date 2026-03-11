@@ -89,7 +89,7 @@ function setup() {
   duck = new Duck(250, 250, 100, duckImage)
   fft = new p5.FFT();
   amplitude = new p5.Amplitude();
-  peakDetect = new p5.PeakDetect(20, 20000, 0.15, 20);
+  peakDetect = new p5.PeakDetect(20, 20000, 0.25, 60);
   classifier.classify(gotResult);
 }
 
