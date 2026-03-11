@@ -28,7 +28,7 @@ let selectedSongIndex = 0;
 let lastSpawnTime = 0;
 let classifier;
 // Teachable Machine model URL:
-let soundModel = './my_model/'; //TODO TOM UPDATE
+let soundModel = 'https://teachablemachine.withgoogle.com/models/osrsQNqug/';
 
 function addEnemy(direction) {
   let x = 50;
@@ -90,7 +90,7 @@ function setup() {
   fft = new p5.FFT();
   amplitude = new p5.Amplitude();
   peakDetect = new p5.PeakDetect(20, 20000, 0.15, 20);
-  classifier.classify(gotResult);
+  classifier.classifyStart(gotResult);
 }
 
 function draw() {
@@ -466,13 +466,9 @@ function keyPressed() {
 
 let label = 'listening...';
 // The model recognizing a sound will trigger this event
-function gotResult(error, results) {
-  if (error) {
-    console.error(error);
-    return;
+function gotResult(results) {
+  if (results[0].label == "Class 2") {
+    this.direction = duck.direction
+    duck.attack()
   }
-  // The results are in an array ordered by confidence.
-  // console.log(results[0]);
-  label = results[0].label;
-  console.log(label)
 }
