@@ -47,6 +47,10 @@ function addEnemy(direction) {
       x = 50;
       y = random(210, 290);
   }
+  // 20% change to set direction to duck
+  if (random() < 0.2) {
+    direction = "duck";
+  }
   enemies.push(new Enemy(x, y, direction, enemySpriteSheet))
 }
 
@@ -168,6 +172,8 @@ function drawGame() {
   powerups = powerups.filter(p => p.active);
 
   duck.draw()
+  duckX = duck.x;
+  duckY = duck.y;
 
   for (let wave of attackWaves) {
     wave.draw()

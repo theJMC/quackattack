@@ -1,3 +1,6 @@
+let duckX = 0
+let duckY = 0
+
 class Enemy {
   constructor(x, y, d, spriteSheet) {
     this.x = x
@@ -89,8 +92,13 @@ class Enemy {
         case 's':
             this.y--
             break;
-        default:
+        case 'w':
             this.x++
+            break;
+        default:
+            // Enemy will navigate towards duck
+            this.x += Math.sign(duckX - this.x);
+            this.y += Math.sign(duckY - this.y);
     }
     if (this.x > 550 || 
         this.x < 0 ||
