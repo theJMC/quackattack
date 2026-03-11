@@ -27,12 +27,10 @@ let songs = [];
 let selectedSongIndex = 0;
 let lastSpawnTime = 0;
 
-function addEnemy() {
-  let directions = ['n', 'e', 's', 'w'];
-  let choice = random(directions);
+function addEnemy(direction) {
   let x = 50;
   let y = 50;
-  switch (choice) {
+  switch (direction) {
     case 'n':
       y = 50;
       x = random(210, 290);
@@ -49,7 +47,7 @@ function addEnemy() {
       x = 50;
       y = random(210, 290);
   }
-  enemies.push(new Enemy(x, y, choice, enemySpriteSheet))
+  enemies.push(new Enemy(x, y, direction, enemySpriteSheet))
 }
 
 function newAttackWave(x, y, direction) {
@@ -212,11 +210,10 @@ function soundToEnemy() {
     let highMid = fft.getEnergy("highMid");
     let treble = fft.getEnergy("treble");
 
-    if (bass > 150) enemies.push(new Enemy(random(210, 290), 450, 's'));
-    if (highMid > 150) enemies.push(new Enemy(random(210, 290), 50, 'n'));
-    if (lowMid > 150) enemies.push(new Enemy(450, random(210, 290), 'e'));
-    if (treble > 150) enemies.push(new Enemy(50, random(210, 290), 'w'));
-
+    if (bass > 150) addEnemy('s');
+    if (highMid > 150) addEnemy('n);
+    if (lowMid > 150) addEnemy('e');
+    if (treble > 150) addEnemy('w');
     lastSpawnTime = currentTime;  // reset spawn timer
   }
 }
@@ -308,7 +305,6 @@ function keyPressed() {
       break;
     case ENTER:
       console.log("enter");
-      addEnemy();
       break;
     case BACKSPACE:
       console.log("backspace");
