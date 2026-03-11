@@ -26,6 +26,9 @@ let songspawnInterval = [
 let songs = [];
 let selectedSongIndex = 0;
 let lastSpawnTime = 0;
+let classifier;
+// Teachable Machine model URL:
+let soundModel = './my_model/'; //TODO TOM UPDATE
 
 function addEnemy(direction) {
   let x = 50;
@@ -70,6 +73,7 @@ function newAttackWave(x, y, direction) {
 function preload() {
   myFont = loadFont('assets/font/PressStart2P-Regular.ttf');
   duckImage = loadImage('assets/duck/duck_water.png');
+  classifier = ml5.soundClassifier(soundModel + 'model.json');
   enemySpriteSheet = loadImage('assets/enemy/enemy_spritesheet.png');
   for (let path of songPaths) {
     songs.push(loadSound(path));
@@ -86,6 +90,7 @@ function setup() {
   fft = new p5.FFT();
   amplitude = new p5.Amplitude();
   peakDetect = new p5.PeakDetect(20, 20000, 0.15, 20);
+  classifier.classify(gotResult);
 }
 
 function draw() {
@@ -457,4 +462,17 @@ function keyPressed() {
       togglePlay();
       break;
   }
+}
+
+let label = 'listening...';
+// The model recognizing a sound will trigger this event
+function gotResult(error, results) {
+  if (error) {
+    console.error(error);
+    return;
+  }
+  // The results are in an array ordered by confidence.
+  // console.log(results[0]);
+  label = results[0].label;
+  console.log(label)
 }
