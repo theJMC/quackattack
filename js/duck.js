@@ -19,6 +19,10 @@ class Duck {
     } else {
       noTint();
     }
+    if(this.health <= 0) {
+      gameState = "gameover"
+      return;
+    }
     // draw duck
     image(this.image, this.x, this.y, 50, 50)
     noTint();

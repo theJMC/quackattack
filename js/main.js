@@ -90,6 +90,12 @@ function draw() {
   } else if (gameState === "playing") {
     drawGame();
   }
+  else if (gameState === "gameover") {
+    drawGameOver();
+  }
+  else if (gameState === "win") {
+    drawWinScreen();
+  }
 }
 
 function startGame() {
@@ -106,7 +112,32 @@ function startGame() {
   }
   sound = songs[selectedSongIndex];
   sound.amp(0.2);
-  sound.loop();
+  sound.play();
+  sound.onended(() => {
+    if (gameState === "playing") {
+      gameState = "win";
+    }
+  });
+}
+function continueGame() {
+  gameState = "playing";
+  enemies = [];
+  attackWaves = [];
+  powerups = [];
+  lastPowerupSpawnTime = millis();
+
+  // Stop any currently playing song and play the selected one
+  for (let s of songs) {
+    s.stop();
+  }
+  sound = songs[selectedSongIndex];
+  sound.amp(0.2);
+  sound.play();
+  sound.onended(() => {
+    if (gameState === "playing") {
+      gameState = "win";
+    }
+  });
 }
 
 function drawStartMenu() {
@@ -148,7 +179,7 @@ function drawStartMenu() {
   if (frameCount % 60 < 40) {
     fill(255);
     textSize(14);
-    text("PRESS SPACE TO START", width / 2, height / 2 + 180);
+    text("PRESS ENTER TO START", width / 2, height / 2 + 180);
   }
 
   textAlign(LEFT, BASELINE);
@@ -210,10 +241,10 @@ function soundToEnemy() {
     let highMid = fft.getEnergy("highMid");
     let treble = fft.getEnergy("treble");
 
-    if (bass > 200) enemies.push(new Enemy(random(210, 290), 450, 's'));
-    if (highMid > 200) enemies.push(new Enemy(random(210, 290), 50, 'n'));
-    if (lowMid > 200) enemies.push(new Enemy(450, random(210, 290), 'e'));
-    if (treble > 200) enemies.push(new Enemy(50, random(210, 290), 'w'));
+    if (bass > 200) enemies.push(new Enemy(random(210, 290), 450, 's', enemySpriteSheet));
+    if (highMid > 200) enemies.push(new Enemy(random(210, 290), 50, 'n', enemySpriteSheet));
+    if (lowMid > 200) enemies.push(new Enemy(450, random(210, 290), 'e', enemySpriteSheet));
+    if (treble > 200) enemies.push(new Enemy(50, random(210, 290), 'w', enemySpriteSheet));
 
     lastSpawnTime = currentTime;  // reset spawn timer
   }
@@ -279,14 +310,93 @@ function togglePlay() {
   }
 }
 
+function resetGame() {
+  sound.stop();
+  duck = new Duck(250, 250, 100, duckImage);
+  enemies = [];
+  attackWaves = [];
+  powerups = [];
+  lastPowerupSpawnTime = 0;
+  powerupSpawnInterval = 8000;
+  gameState = "menu";
+  lastSpawnTime = 0;
+  // Reset song selection if you want to start from the first song
+  selectedSongIndex = 0;
+  // If you use these elsewhere, reset them too:
+  // fft, amplitude, peakDetect will be re-initialized in setup()
+  // No need to reset duckImage, enemySpriteSheet, myFont, songs, songPaths, songNames, bpm, spawnInterval
+}
+
+function drawGameOver() {
+  background('#222');
+  fill('#fff');
+  textAlign(CENTER, CENTER);
+  textSize(32);
+  text("GAME OVER", width / 2, height / 2 - 40);
+  textSize(16);
+  text("Press ENTER to try again", width / 2, height / 2 + 20);
+  textAlign(LEFT, BASELINE);
+}
+
+function drawWinScreen() {
+  background('#86c88c');
+  fill('#fff');
+  textAlign(CENTER, CENTER);
+  textSize(32);
+  text("YOU WIN!", width / 2, height / 2 - 60);
+
+  textSize(14);
+  fill(250);
+  text("SELECT A NEW SONG", width / 2, height / 2);
+
+  for (let i = 0; i < songNames.length; i++) {
+    if (i === selectedSongIndex) {
+      fill(255, 255, 0);
+      text("> " + songNames[i] + " <", width / 2, height / 2 + 30 + i * 25);
+    } else {
+      fill(250);
+      text(songNames[i], width / 2, height / 2 + 30 + i * 25);
+    }
+  }
+
+  fill(200);
+  textSize(12);
+  text("UP/DOWN TO SELECT", width / 2, height / 2 + 120);
+  text("ENTER TO CONTINUE", width / 2, height / 2 + 140);
+  text("M TO RETURN TO MENU", width / 2, height / 2 + 160);
+
+  textAlign(LEFT, BASELINE);
+}
+
 function keyPressed() {
    if (gameState === "menu") {
     if (keyCode === UP_ARROW) {
       selectedSongIndex = (selectedSongIndex - 1 + songNames.length) % songNames.length;
     } else if (keyCode === DOWN_ARROW) {
       selectedSongIndex = (selectedSongIndex + 1) % songNames.length;
-    } else if (key === " ") {
+    } else if (keyCode === ENTER) {
       startGame();
+    }
+    return;
+  }
+  else if (gameState === "gameover") {
+    if (keyCode === ENTER) {
+      noTint();
+      resetGame();
+      gameState = "menu";
+    }
+    return;
+  }
+  else if (gameState === "win") {
+    if (keyCode === UP_ARROW) {
+      selectedSongIndex = (selectedSongIndex - 1 + songNames.length) % songNames.length;
+    } else if (keyCode === DOWN_ARROW) {
+      selectedSongIndex = (selectedSongIndex + 1) % songNames.length;
+    } else if (keyCode === ENTER) {
+      continueGame(); // Continue with new song
+    } else if (keyCode === 'M'.charCodeAt(0)) {
+      resetGame(); // Back to menu
+      gameState = "menu";
     }
     return;
   }
