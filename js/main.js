@@ -212,10 +212,10 @@ function soundToEnemy() {
     let highMid = fft.getEnergy("highMid");
     let treble = fft.getEnergy("treble");
 
-    if (bass > 200) enemies.push(new Enemy(random(210, 290), 450, 's'));
-    if (highMid > 200) enemies.push(new Enemy(random(210, 290), 50, 'n'));
-    if (lowMid > 200) enemies.push(new Enemy(450, random(210, 290), 'e'));
-    if (treble > 200) enemies.push(new Enemy(50, random(210, 290), 'w'));
+    if (bass > 150) enemies.push(new Enemy(random(210, 290), 450, 's'));
+    if (highMid > 150) enemies.push(new Enemy(random(210, 290), 50, 'n'));
+    if (lowMid > 150) enemies.push(new Enemy(450, random(210, 290), 'e'));
+    if (treble > 150) enemies.push(new Enemy(50, random(210, 290), 'w'));
 
     lastSpawnTime = currentTime;  // reset spawn timer
   }
