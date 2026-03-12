@@ -1,5 +1,5 @@
 # TODOs
-- Sort out health location
+none :) 
 
 # 🦆 Quack Attack
 Quack Attack is our LAST Bournemouth Hackathon game. 
